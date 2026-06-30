@@ -24,8 +24,8 @@
     </licenses>
 
     <properties>
-        <revision>937.3.3</revision>
-        <changelist></changelist>
+        <revision>937.3.4</revision>
+        <changelist>-vaimo1</changelist>
         <gitHubRepo>jenkinsci/bitbucket-branch-source-plugin</gitHubRepo>
         <hpi.bundledArtifacts>scribejava-core,scribejava-java8</hpi.bundledArtifacts>
         <hpi.strictBundledArtifacts>true</hpi.strictBundledArtifacts>
