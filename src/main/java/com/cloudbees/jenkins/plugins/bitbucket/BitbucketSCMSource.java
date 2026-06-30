@@ -330,7 +330,17 @@ public class BitbucketSCMSource extends SCMSource {
         }
     }
 
+    /**
+     * Escape hatch for large instances: skip the per-source primary clone-link fetch. This is a
+     * {@code getRepository()} call made on every {@code afterSave()}/{@code retrieve()}, which is
+     * Bitbucket-API rate-limited at scale (hundreds of sources) and dominates seed/index time.
+     * When set, the source simply falls back to the generated clone links. Off by default.
+     * Toggle with {@code -Dcom.cloudbees.jenkins.plugins.bitbucket.BitbucketSCMSource.disablePrimaryCloneLinks=true}.
+     */
     private void gatherPrimaryCloneLinks(@NonNull BitbucketApi apiClient) throws IOException {
+        if (Boolean.getBoolean(BitbucketSCMSource.class.getName() + ".disablePrimaryCloneLinks")) {
+            return;
+        }
         BitbucketRepository r = apiClient.getRepository();
         Map<String, List<BitbucketHref>> links = r.getLinks();
         if (links != null && links.containsKey("clone")) {
